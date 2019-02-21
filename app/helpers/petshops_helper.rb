@@ -1,0 +1,2 @@
+module PetshopsHelper
+end
