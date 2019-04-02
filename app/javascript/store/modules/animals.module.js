@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { AnimalsService } from "../../common/api.service";
-import { FETCH_ANIMALS, CREATE_ANIMAL, DELETE_ANIMAL } from "../actions.type";
+import { FETCH_ANIMAL, FETCH_ANIMALS, CREATE_ANIMAL, DELETE_ANIMAL } from "../actions.type";
 import * as mutationTypes from "../mutations.type";
 
 const initialAnimalState = {
@@ -38,13 +38,25 @@ const getters = {
 
 const actions = {
   [FETCH_ANIMALS]({ commit }) {
-    commit(mutationTypes.FETCH_START);
+    commit(mutationTypes.COLLECTION_FETCH_PENDING);
     return AnimalsService.index()
       .then(({ data, length }) => {
-        commit(mutationTypes.FETCH_END, data);
+        commit(mutationTypes.COLLECTION_FETCH_SUCCESS, data);
       })
       .catch(error => {
         throw new Error(error);
+        commit(mutationTypes.COLLECTION_FETCH_FAILURE)
+      });
+  },
+  [FETCH_ANIMAL]({ commit }, id) {
+    commit(mutationTypes.MEMBER_FETCH_PENDING);
+    return AnimalsService.get(id)
+      .then(({ data }) => {
+        commit(mutationTypes.MEMBER_FETCH_SUCCESS, data);
+      })
+      .catch(error => {
+        throw new Error(error);
+        commit(mutationTypes.MEMBER_FETCH_FAILURE)
       });
   },
   [CREATE_ANIMAL]({ commit, state }) {
@@ -76,13 +88,32 @@ const actions = {
 };
 
 const mutations = {
-  [mutationTypes.FETCH_START](state) {
+  [mutationTypes.COLLECTION_FETCH_PENDING](state) {
     state.isLoading = true;
   },
 
-  [mutationTypes.FETCH_END](state, animals) {
+  [mutationTypes.COLLECTION_FETCH_SUCCESS](state, animals) {
     state.animals = animals;
     state.animalsCount = animals.length;
+    state.isLoading = false;
+  },
+
+  [mutationTypes.COLLECTION_FETCH_FAILURE](state, animals) {
+    state.animals = [];
+    state.animalsCount = 0;
+    state.isLoading = false;
+  },
+
+  [mutationTypes.MEMBER_FETCH_PENDING](state) {
+    state.isLoading = true;
+  },
+
+  [mutationTypes.MEMBER_FETCH_SUCCESS](state, animal) {
+    state.animal = animal;
+    state.isLoading = false;
+  },
+
+  [mutationTypes.MEMBER_FETCH_FAILURE](state, animal) {
     state.isLoading = false;
   },
 

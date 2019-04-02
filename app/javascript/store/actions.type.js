@@ -1,3 +1,4 @@
 export const FETCH_ANIMALS = "FETCH_ANIMALS";
+export const FETCH_ANIMAL = "FETCH_ANIMAL";
 export const CREATE_ANIMAL = "CREATE_ANIMAL";
 export const DELETE_ANIMAL = "DELETE_ANIMAL";

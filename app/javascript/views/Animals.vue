@@ -13,7 +13,7 @@
   import { FETCH_ANIMALS } from '../store/actions.type';
 
   export default {
-    name: 'Animals',
+    name: 'animals',
     components: {
       animal,
       animalForm

@@ -26,26 +26,26 @@ const ApiService = {
   },
 
   get(resource, id = "") {
-    return Vue.axios.get(`${resource}/${id}?format=json`)
+    return Vue.axios.get(`/${resource}/${id}?format=json`)
     .catch(error => {
       throw new Error(`[RWV] ApiService ${error}`);
     });
   },
 
   post(resource, params) {
-    return Vue.axios.post(`${resource}?format=json`, params);
+    return Vue.axios.post(`/${resource}?format=json`, params);
   },
 
   update(resource, id, params) {
-    return Vue.axios.put(`${resource}/${id}?format=json`, params);
+    return Vue.axios.put(`/${resource}/${id}?format=json`, params);
   },
 
   put(resource, params) {
-    return Vue.axios.put(`${resource}?format=json`, params);
+    return Vue.axios.put(`/${resource}?format=json`, params);
   },
 
   delete(resource) {
-    return Vue.axios.delete(`${resource}?format=json`)
+    return Vue.axios.delete(`/${resource}?format=json`)
   }
 };
 
